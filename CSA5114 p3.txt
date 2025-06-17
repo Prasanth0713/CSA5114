@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define SIZE 5
+
+void generateMatrix(char key[], char matrix[SIZE][SIZE]) {
+    int used[26] = {0}, x = 0, y = 0;
+    used['J' - 'A'] = 1;  // I/J treated as same
+    for (int i = 0; key[i]; i++) {
+        char ch = toupper(key[i]);
+        if (ch == 'J') ch = 'I';
+        if (isalpha(ch) && !used[ch - 'A']) {
+            matrix[y][x++] = ch;
+            used[ch - 'A'] = 1;
+            if (x == SIZE) x = 0, y++;
+        }
+    }
+    for (char ch = 'A'; ch <= 'Z'; ch++) {
+        if (!used[ch - 'A']) {
+            matrix[y][x++] = ch;
+            if (x == SIZE) x = 0, y++;
+        }
+    }
+}
